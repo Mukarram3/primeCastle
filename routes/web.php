@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
@@ -31,6 +32,11 @@ Route::group(['prefix'=>'users','as' => 'users.','middleware' => 'auth'], functi
 });
 
 Route::get('/postindex', [PostController::class, 'getPosts'])->name('postsIndex');
-Route::get('post',[\App\Http\Controllers\PostController::class,'index'])->name('postIndex');
-Route::post('storePost',[\App\Http\Controllers\PostController::class,'store']);
+Route::get('/getusers', [PostController::class, 'getusers'])->name('getusers');
+Route::post('/storepost', [PostController::class, 'store'])->name('storepost');
+Route::get('/index', [PostController::class, 'index'])->name('index');
+//Route::resource('post',PostController::class);
 
+Route::get('/categoryindex', [\App\Http\Controllers\CategoryController::class, 'getcategories'])->name('categoryindex');
+Route::get('category',[\App\Http\Controllers\CategoryController::class,'index']);
+Route::post('storecategory',[\App\Http\Controllers\CategoryController::class,'store']);

@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
-use App\DataTables\UserDataTable;
-use App\DataTables\UserDataTableEditor;
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\DataTables\CategoryDataTableEditor;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware(['auth']);
@@ -24,17 +21,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('custom/apps/user/users');
+
+        return view('custom/apps/user/category');
     }
 
     // GET ALL Users
-    public function getUsersList(Request $request){
-        $users = User::select('id','name','email');
-        return DataTables::of($users)
+    public function getcategories(Request $request){
+        $Category = Category::select('id','title','description');
+        return DataTables::of($Category)
             ->setRowClass('{{ $id % 2 == 0 ? "alert-success" : "alert-warning" }}')
             ->setRowId('{{$id}}')
             ->setRowAttr(['align' => 'center'])
-            ->setRowData(['data-name' => 'row-{{$name}}',])
+            ->setRowData(['data-name' => 'row-{{$title}}',])
             ->make(true);
     }
 
@@ -54,7 +52,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserDataTableEditor $editor)
+    public function store(CategoryDataTableEditor $editor)
     {
         return $editor->process(request());
     }
@@ -102,7 +100,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user=User::find($id);
+        $user=Category::find($id);
         $user->delete();
     }
 }
